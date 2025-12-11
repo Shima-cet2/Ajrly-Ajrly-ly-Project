@@ -1,59 +1,42 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using System.IO; // ضروري للتعامل مع الملفات
+using System.IO;
 using System.Windows.Forms;
 
 namespace Ajrly_ly
 {
     public class FileManager
     {
-        // مسار الملف: يفترض وجوده بجانب ملف التشغيل exe
+        // ------------------
+        // 1. دوال المستخدمين
+        // ------------------
         private static string usersFilePath = "users.txt";
 
         public static bool CheckLogin(string username, string password)
         {
             try
             {
-                // التحقق من وجود الملف أولاً
                 if (!File.Exists(usersFilePath))
-                {
-                    MessageBox.Show("ملف المستخدمين غير موجود!", "خطأ", MessageBoxButtons.OK, MessageBoxIcon.Error);
                     return false;
-                }
 
-                // قراءة كل السطور من الملف
                 string[] lines = File.ReadAllLines(usersFilePath);
-
                 foreach (string line in lines)
                 {
-                    // تقسيم السطر بناء على الفاصلة
-                    // line looks like: admin,123
                     string[] parts = line.Split(',');
-
                     if (parts.Length == 2)
                     {
-                        string savedUser = parts[0].Trim(); // الاسم المخزن
-                        string savedPass = parts[1].Trim(); // كلمة المرور المخزنة
-
-                        // مقارنة البيانات المدخلة مع المخزنة
-                        if (savedUser == username && savedPass == password)
-                        {
-                            return true; // نجاح الدخول
-                        }
+                        if (parts[0].Trim() == username && parts[1].Trim() == password)
+                            return true;
                     }
                 }
             }
-            catch (Exception ex)
-            {
-                MessageBox.Show("حدث خطأ أثناء قراءة الملف: " + ex.Message);
-            }
-
-            return false; // فشل الدخول
+            catch (Exception) { return false; }
+            return false;
         }
-        // دالة لجلب المرتجعات الخاصة باليوم فقط
+
+        // ------------------
+        // 2. دوال الواجهة الرئيسية (المرتجعات اليوم)
+        // ------------------
         public static List<string[]> GetTodayReturns()
         {
             List<string[]> todayReturns = new List<string[]>();
@@ -62,19 +45,15 @@ namespace Ajrly_ly
             if (File.Exists(filePath))
             {
                 string[] lines = File.ReadAllLines(filePath);
-                string todayDate = DateTime.Now.ToString("dd/MM/yyyy"); // تاريخ اليوم كـ نص
+                string todayDate = DateTime.Now.ToString("dd/MM/yyyy");
 
                 foreach (string line in lines)
                 {
                     string[] parts = line.Split(',');
                     // التنسيق: المنتج، العميل، تاريخ الايجار، تاريخ الارجاع، السعر
-                    // تاريخ الإرجاع هو العنصر رقم 3 (العد يبدأ من 0)
                     if (parts.Length >= 4)
                     {
-                        string returnDate = parts[3].Trim();
-
-                        // إذا كان تاريخ الإرجاع يساوي تاريخ اليوم، ضفه للقائمة
-                        if (returnDate == todayDate)
+                        if (parts[3].Trim() == todayDate)
                         {
                             todayReturns.Add(parts);
                         }
@@ -83,5 +62,91 @@ namespace Ajrly_ly
             }
             return todayReturns;
         }
-    }
-}
+
+        // ------------------
+        // 3. دوال إدارة المنتجات (الجديدة)
+        // ------------------
+
+        // دالة جلب كل المنتجات
+        public static List<Product> GetAllProductsList()
+        {
+            List<Product> list = new List<Product>();
+            string path = "products.txt";
+
+            if (File.Exists(path))
+            {
+                string[] lines = File.ReadAllLines(path);
+                foreach (string line in lines)
+                {
+                    string[] parts = line.Split(',');
+                    // نتأكد أن السطر فيه 3 أجزاء على الأقل (اسم، سعر، وصف)
+                    if (parts.Length >= 3)
+                    {
+                        list.Add(new Product
+                        {
+                            Name = parts[0],
+                            Price = parts[1],
+                            Description = parts[2]
+                        });
+                    }
+                }
+            }
+            return list;
+        }
+
+        // دالة الحفظ (إضافة منتج جديد)
+        public static void SaveProduct(string name, string price, string desc)
+        {
+            string path = "products.txt";
+            // السطر الجديد: الاسم,السعر,الوصف
+            string line = $"{name},{price},{desc}{Environment.NewLine}";
+
+            File.AppendAllText(path, line);
+        }
+
+        // دالة الحذف
+        public static void DeleteProduct(string nameToDelete)
+        {
+            // نجلب كل المنتجات في الذاكرة
+            List<Product> allProducts = GetAllProductsList();
+
+            // نحذف المنتج الذي له نفس الاسم
+            allProducts.RemoveAll(p => p.Name == nameToDelete);
+
+            // نعيد كتابة الملف بالقائمة الجديدة
+            RewriteFile(allProducts);
+        }
+
+        // دالة التعديل
+        public static void UpdateProduct(string oldName, Product newProductData)
+        {
+            List<Product> allProducts = GetAllProductsList();
+
+            // نبحث عن المنتج القديم
+            var target = allProducts.Find(p => p.Name == oldName);
+            if (target != null)
+            {
+                // نحدث بياناته
+                target.Name = newProductData.Name;
+                target.Price = newProductData.Price;
+                target.Description = newProductData.Description;
+            }
+
+            // نعيد كتابة الملف
+            RewriteFile(allProducts);
+        }
+
+        // دالة مساعدة (خاصة) لإعادة كتابة الملف بالكامل
+        private static void RewriteFile(List<Product> products)
+        {
+            using (StreamWriter sw = new StreamWriter("products.txt"))
+            {
+                foreach (var p in products)
+                {
+                    sw.WriteLine($"{p.Name},{p.Price},{p.Description}");
+                }
+            }
+        }
+
+    } // نهاية الكلاس (تأكدي أن كل الدوال قبله)
+} // نهاية النيم سبيس

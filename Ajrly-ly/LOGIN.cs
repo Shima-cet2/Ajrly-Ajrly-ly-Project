@@ -68,5 +68,10 @@ namespace Ajrly_ly
         private void guna2TextBox1_TextChanged(object sender, EventArgs e) { }
         private void guna2PictureBox1_Click_1(object sender, EventArgs e) { }
         private void passwordTX_TextChanged(object sender, EventArgs e) { }
+
+        private void guna2ControlBox1_Click(object sender, EventArgs e)
+        {
+
+        }
     }
 }

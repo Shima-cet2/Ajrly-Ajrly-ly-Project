@@ -105,5 +105,19 @@ namespace Ajrly_ly
         {
 
         }
+
+        private void btnProducts_Click(object sender, EventArgs e)
+        {
+            // إنشاء نسخة من واجهة المنتجات
+            FrmProducts frm = new FrmProducts();
+
+            // فتح الواجهة
+            frm.ShowDialog();
+        }
+
+        private void guna2Panel1_Paint(object sender, PaintEventArgs e)
+        {
+
+        }
     }
 }

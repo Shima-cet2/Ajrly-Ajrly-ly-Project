@@ -34,8 +34,8 @@
             this.label2 = new System.Windows.Forms.Label();
             this.userNameTX = new Guna.UI2.WinForms.Guna2TextBox();
             this.passwordTX = new Guna.UI2.WinForms.Guna2TextBox();
-            this.guna2PictureBox1 = new Guna.UI2.WinForms.Guna2PictureBox();
             this.guna2ControlBox1 = new Guna.UI2.WinForms.Guna2ControlBox();
+            this.guna2PictureBox1 = new Guna.UI2.WinForms.Guna2PictureBox();
             ((System.ComponentModel.ISupportInitialize)(this.guna2PictureBox1)).BeginInit();
             this.SuspendLayout();
             // 
@@ -54,9 +54,9 @@
             this.guna2Button1.ForeColor = System.Drawing.SystemColors.Window;
             this.guna2Button1.HoverState.FillColor = System.Drawing.Color.FromArgb(((int)(((byte)(255)))), ((int)(((byte)(192)))), ((int)(((byte)(192)))));
             this.guna2Button1.HoverState.ForeColor = System.Drawing.Color.DarkViolet;
-            this.guna2Button1.Location = new System.Drawing.Point(114, 394);
+            this.guna2Button1.Location = new System.Drawing.Point(48, 382);
             this.guna2Button1.Name = "guna2Button1";
-            this.guna2Button1.Size = new System.Drawing.Size(334, 46);
+            this.guna2Button1.Size = new System.Drawing.Size(369, 46);
             this.guna2Button1.TabIndex = 0;
             this.guna2Button1.Text = "LOG IN";
             this.guna2Button1.Click += new System.EventHandler(this.guna2Button1_Click);
@@ -126,6 +126,22 @@
             this.passwordTX.TabIndex = 4;
             this.passwordTX.TextChanged += new System.EventHandler(this.passwordTX_TextChanged);
             // 
+            // guna2ControlBox1
+            // 
+            this.guna2ControlBox1.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+            this.guna2ControlBox1.BackColor = System.Drawing.SystemColors.ButtonHighlight;
+            this.guna2ControlBox1.BorderRadius = 10;
+            this.guna2ControlBox1.FillColor = System.Drawing.SystemColors.Control;
+            this.guna2ControlBox1.Font = new System.Drawing.Font("Microsoft Sans Serif", 7.8F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.guna2ControlBox1.HoverState.FillColor = System.Drawing.Color.Red;
+            this.guna2ControlBox1.HoverState.IconColor = System.Drawing.Color.White;
+            this.guna2ControlBox1.IconColor = System.Drawing.Color.DarkMagenta;
+            this.guna2ControlBox1.Location = new System.Drawing.Point(25, 22);
+            this.guna2ControlBox1.Name = "guna2ControlBox1";
+            this.guna2ControlBox1.Size = new System.Drawing.Size(32, 30);
+            this.guna2ControlBox1.TabIndex = 10;
+            this.guna2ControlBox1.Click += new System.EventHandler(this.guna2ControlBox1_Click);
+            // 
             // guna2PictureBox1
             // 
             this.guna2PictureBox1.Image = global::Ajrly_ly.Properties.Resources.تصميم_بدون_عنوان2;
@@ -136,20 +152,6 @@
             this.guna2PictureBox1.TabIndex = 5;
             this.guna2PictureBox1.TabStop = false;
             this.guna2PictureBox1.Click += new System.EventHandler(this.guna2PictureBox1_Click_1);
-            // 
-            // guna2ControlBox1
-            // 
-            this.guna2ControlBox1.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-            this.guna2ControlBox1.BackColor = System.Drawing.SystemColors.ButtonHighlight;
-            this.guna2ControlBox1.FillColor = System.Drawing.Color.DarkViolet;
-            this.guna2ControlBox1.Font = new System.Drawing.Font("Microsoft Sans Serif", 7.8F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.guna2ControlBox1.HoverState.FillColor = System.Drawing.Color.Red;
-            this.guna2ControlBox1.HoverState.IconColor = System.Drawing.Color.White;
-            this.guna2ControlBox1.IconColor = System.Drawing.Color.MintCream;
-            this.guna2ControlBox1.Location = new System.Drawing.Point(2, 3);
-            this.guna2ControlBox1.Name = "guna2ControlBox1";
-            this.guna2ControlBox1.Size = new System.Drawing.Size(32, 30);
-            this.guna2ControlBox1.TabIndex = 10;
             // 
             // Form1
             // 
